@@ -14,7 +14,7 @@ patterns = {"V/" => {:fg => "black", :bg => "blue",    :label => "[ VERBOSE ]"},
 
 # Ruby 1.9 support passing an array - move to this eventually
 IO.popen("adb logcat #{ARGV.join(' ')}") do |f|
-  while line = f.gets
+  while line = f.gets.chars.select{|i| i.valid_encoding?}.join
     line.sub!(/\(\s*\d+\)/, "")
     line.gsub!("\r\n", "")
 
