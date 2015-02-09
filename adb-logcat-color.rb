@@ -17,9 +17,8 @@ IO.popen("adb logcat #{ARGV.join(' ')}") do |f|
   while line = f.gets.chars.select{|i| i.valid_encoding?}.join
     line.sub!(/\(\s*\d+\)/, "")
     line.gsub!("\r\n", "")
-
     match = patterns.keys.find do |x|
-      line.start_with?(x)
+      line.start_with?(x) and !line.include? "Unexpected value from nativeGetEnabledTags: 0"
     end
 
     if match
